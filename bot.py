@@ -18,16 +18,13 @@ BOT_TOKEN = os.getenv("BOT_TOKEN")
 openai.api_key = OPENAI_API_KEY
 
 # 3. Настраиваем нашу базу данных (Chroma)
-# Создаем функцию, которая будет превращать текст в "смыслы" (векторы)
-# Передаём ключ API напрямую, чтобы Chroma не ругался
-import os
-os.environ["CHROMA_OPENAI_API_KEY"] = OPENAI_API_KEY  # <-- ВОТ ЭТО ГЛАВНОЕ!
+# Используем локальную модель для эмбеддингов (без интернета и OpenAI)
+from chromadb.utils import embedding_functions
 
-from chromadb.utils.embedding_functions import OpenAIEmbeddingFunction
-embed_fn = OpenAIEmbeddingFunction(
-    api_key=OPENAI_API_KEY,
-    model_name="text-embedding-ada-002"
+embed_fn = embedding_functions.SentenceTransformerEmbeddingFunction(
+    model_name="all-MiniLM-L6-v2"  # Лёгкая и быстрая локальная модель
 )
+
 # Создаем или подключаемся к базе данных, которая будет сохраняться в папке "chroma_db"
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
 # Создаем "коллекцию" (как папку) для наших документов

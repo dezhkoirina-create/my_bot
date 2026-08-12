@@ -29,7 +29,7 @@ embed_fn = embedding_functions.SentenceTransformerEmbeddingFunction(
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
 # Создаем "коллекцию" (как папку) для наших документов
 collection = chroma_client.get_or_create_collection(
-    name="my_knowledge",
+    name="my_knowledge_v2",
     embedding_function=embed_fn
 )
 # 4. Настраиваем Телеграм-бота

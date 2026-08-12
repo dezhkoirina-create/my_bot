@@ -11,7 +11,9 @@ from dotenv import load_dotenv
 
 # 1. Загружаем секретные ключи из файла .env
 load_dotenv()
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY").strip() if os.getenv("OPENAI_API_KEY") else None
+import openai
+openai.api_key = OPENAI_API_KEY
 BOT_TOKEN = os.getenv("BOT_TOKEN")
 
 # 2. Настраиваем OpenAI
